@@ -61,6 +61,7 @@
     <Compile Include="src\Authorization\UserAccount.cs" />
     <Compile Include="src\Authorization\UserRole.cs" />
     <Compile Include="src\Authorization\UserSession.cs" />
+    <Compile Include="src\DBCommands\DbCommands.cs" />
     <Compile Include="src\Main\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

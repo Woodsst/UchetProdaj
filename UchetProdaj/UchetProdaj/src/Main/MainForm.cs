@@ -4,6 +4,7 @@ using System.Data.OleDb;
 using System.Windows.Forms;
 using UchetProdaj.Authorization;
 using UchetProdaj.Properties;
+using UchetProdaj.src.DBCommands;
 
 namespace UchetProdaj.Main
 {
@@ -17,8 +18,7 @@ namespace UchetProdaj.Main
     /// </summary>
     public partial class MainForm : Form
     {
-        private OleDbDataAdapter adapter;
-        private DataTable table;
+        private DbCommands dbCommands;
 
         /// <summary>Создаёт главное окно, показывает в заголовке роль и логин пользователя и настраивает доступность кнопок по его правам.</summary>
         public MainForm()
@@ -26,6 +26,7 @@ namespace UchetProdaj.Main
             InitializeComponent();
             SetRoleTitle();
             SetRolePermissionPossibilities();
+            dbCommands = new DbCommands();
         }
 
         /// <summary> и отключает кнопки действий, недоступных его роли.</summary>
@@ -60,21 +61,7 @@ namespace UchetProdaj.Main
         private void sell_Click(object sender, EventArgs e)
         {
             if (!EnsurePermission(Permission.ViewSales)) return;
-
-            string connStr = Settings.Default.productUchetConnectionString;
-
-            adapter = new OleDbDataAdapter("SELECT * FROM Продажи", connStr);
-            
-            var builder = new OleDbCommandBuilder(adapter);
-            builder.QuotePrefix = "[";
-            builder.QuoteSuffix = "]";
-            adapter.InsertCommand = builder.GetInsertCommand();
-            adapter.UpdateCommand = builder.GetUpdateCommand();
-            adapter.DeleteCommand = builder.GetDeleteCommand();
-            table = new DataTable();
-            adapter.Fill(table);
-
-            dataGridView1.DataSource = table;
+            dataGridView1.DataSource = dbCommands.GetSales();
         }
 
         /// <summary>Обработчик кнопки «Сохранить»: проверяет право роли на изменение данных (само сохранение ещё не реализовано).</summary>
@@ -83,10 +70,8 @@ namespace UchetProdaj.Main
             if (!EnsurePermission(Permission.EditSales)) return;
             try
             {
-
                 dataGridView1.EndEdit();
-                System.Diagnostics.Debug.WriteLine("INSERT: " + adapter.InsertCommand?.CommandText);
-                int affected = adapter.Update(table);
+                int affected = dbCommands.SaveChanges();
                 MessageBox.Show($"Сохранено изменений: {affected}");
             }
             catch (Exception ex)
@@ -97,7 +82,7 @@ namespace UchetProdaj.Main
 
         private void otchet_Click(object sender, EventArgs e)
         {
-
+            dataGridView1.DataSource = dbCommands.GetProducts();
         }
 
         private void LoadTable_Click(object sender, EventArgs e)
@@ -107,7 +92,6 @@ namespace UchetProdaj.Main
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
 
         }
     }
