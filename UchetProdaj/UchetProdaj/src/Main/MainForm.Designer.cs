@@ -49,7 +49,7 @@
             // 
             // SaveChangesClick
             // 
-            this.SaveChangesClick.Location = new System.Drawing.Point(381, 352);
+            this.SaveChangesClick.Location = new System.Drawing.Point(347, 352);
             this.SaveChangesClick.Name = "SaveChangesClick";
             this.SaveChangesClick.Size = new System.Drawing.Size(75, 23);
             this.SaveChangesClick.TabIndex = 2;
@@ -70,14 +70,14 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(328, 41);
+            this.comboBox1.Location = new System.Drawing.Point(651, 41);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 4;
             // 
             // LoadTable
             // 
-            this.LoadTable.Location = new System.Drawing.Point(374, 12);
+            this.LoadTable.Location = new System.Drawing.Point(697, 12);
             this.LoadTable.Name = "LoadTable";
             this.LoadTable.Size = new System.Drawing.Size(75, 23);
             this.LoadTable.TabIndex = 5;
@@ -90,14 +90,14 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 68);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(444, 278);
+            this.dataGridView1.Size = new System.Drawing.Size(760, 278);
             this.dataGridView1.TabIndex = 6;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(468, 389);
+            this.ClientSize = new System.Drawing.Size(784, 389);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.LoadTable);
             this.Controls.Add(this.comboBox1);

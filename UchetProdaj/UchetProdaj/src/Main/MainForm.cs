@@ -27,6 +27,7 @@ namespace UchetProdaj.Main
             SetRoleTitle();
             SetRolePermissionPossibilities();
             dbCommands = new DbCommands();
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         /// <summary> и отключает кнопки действий, недоступных его роли.</summary>
@@ -62,6 +63,10 @@ namespace UchetProdaj.Main
         {
             if (!EnsurePermission(Permission.ViewSales)) return;
             dataGridView1.DataSource = dbCommands.GetSales();
+            GenerateProductColumn();
+            GenerateCustomerColumn();
+            dataGridView1.Columns["Код продажи"].ReadOnly = true;
+            dataGridView1.Columns["Код продажи"].Visible = false;
         }
 
         /// <summary>Обработчик кнопки «Сохранить»: проверяет право роли на изменение данных (само сохранение ещё не реализовано).</summary>
@@ -93,6 +98,52 @@ namespace UchetProdaj.Main
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void GenerateProductColumn()
+        {
+            if (dataGridView1.Columns.Contains("Товар"))
+                dataGridView1.Columns.Remove("Товар");
+            var productTable = dbCommands.GetProducts();
+            var combo = new DataGridViewComboBoxColumn
+            {
+                Name = "Товар",
+                DataPropertyName = "Товар",
+                HeaderText = "Товар",
+                DataSource = productTable,
+                DisplayMember = "название товара",
+                ValueMember = "Код товара",
+                FlatStyle = FlatStyle.Flat,
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
+                Width = 200
+            };
+            dataGridView1.Columns.Add(combo);
+            combo.DisplayIndex = 1;
+        }
+        private void GenerateCustomerColumn()
+        {
+            if (dataGridView1.Columns.Contains("Торговое предприятие"))
+                dataGridView1.Columns.Remove("Торговое предприятие");
+            var productTable = dbCommands.GetCustomers();
+            var combo = new DataGridViewComboBoxColumn
+            {
+                Name = "Торговое предприятие",
+                DataPropertyName = "Торговое предприятие",
+                HeaderText = "Торговое предприятие",
+                DataSource = productTable,
+                DisplayMember = "Наименование",
+                ValueMember = "Код торгового предприятия",
+                FlatStyle = FlatStyle.Flat,
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
+                FillWeight = 120
+            };
+            dataGridView1.Columns.Add(combo);
+            combo.DisplayIndex = 2;
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            dbCommands?.Dispose();
+            base.OnFormClosed(e);
         }
     }
 }
