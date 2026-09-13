@@ -66,5 +66,15 @@ namespace UchetProdaj.Main
         {
             if (!EnsurePermission(Permission.EditSales)) return;
         }
+
+        private void otchet_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LoadTable_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
