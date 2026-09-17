@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using UchetProdaj.Authorization;
 using UchetProdaj.Properties;
 using UchetProdaj.src.DBCommands;
+using UchetProdaj.src.Main;
 
 namespace UchetProdaj.Main
 {
@@ -34,7 +35,7 @@ namespace UchetProdaj.Main
         private void SetRolePermissionPossibilities()
         {
             sell.Enabled = RolePermissions.Can(UserSession.Role, Permission.ViewSales);
-            otchet.Enabled = RolePermissions.Can(UserSession.Role, Permission.ViewSales);
+            LoadReport.Enabled = RolePermissions.Can(UserSession.Role, Permission.ViewSales);
 
             LoadReport.Enabled = RolePermissions.Can(UserSession.Role, Permission.EditSales);
             SaveChangesClick.Enabled = RolePermissions.Can(UserSession.Role, Permission.EditSales);
@@ -62,9 +63,11 @@ namespace UchetProdaj.Main
         private void sell_Click(object sender, EventArgs e)
         {
             if (!EnsurePermission(Permission.ViewSales)) return;
-            dataGridView1.DataSource = dbCommands.GetSales();
-            GenerateProductColumn();
-            GenerateCustomerColumn();
+            //dataGridView1.DataSource = dbCommands.GetSales();
+            //GenerateProductColumn();
+            //GenerateCustomerColumn();
+            SellForm sellForm = new SellForm(dbCommands);
+            sellForm.ShowDialog();
         }
 
         /// <summary>Обработчик кнопки «Сохранить»: проверяет право роли на изменение данных (само сохранение ещё не реализовано).</summary>

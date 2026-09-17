@@ -31,13 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.sell = new System.Windows.Forms.Button();
             this.SaveChangesClick = new System.Windows.Forms.Button();
-            this.otchet = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.LoadReport = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.productUchetDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.LoadTable = new System.Windows.Forms.Button();
-            this.productUchetDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productUchetDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -61,16 +60,6 @@
             this.SaveChangesClick.Text = "Сохранить";
             this.SaveChangesClick.UseVisualStyleBackColor = true;
             this.SaveChangesClick.Click += new System.EventHandler(this.SaveChangesClick_Click);
-            // 
-            // otchet
-            // 
-            this.otchet.Location = new System.Drawing.Point(93, 12);
-            this.otchet.Name = "otchet";
-            this.otchet.Size = new System.Drawing.Size(75, 23);
-            this.otchet.TabIndex = 3;
-            this.otchet.Text = "Отчет";
-            this.otchet.UseVisualStyleBackColor = true;
-            this.otchet.Click += new System.EventHandler(this.otchet_Click);
             // 
             // comboBox1
             // 
@@ -117,14 +106,6 @@
             this.LoadTable.Text = "Загрузить таблицу";
             this.LoadTable.UseVisualStyleBackColor = true;
             // 
-            // productUchetDataSet
-            // 
-            // 
-            // productUchetDataSetBindingSource
-            // 
-            this.productUchetDataSetBindingSource.DataSource = this.productUchetDataSet;
-            this.productUchetDataSetBindingSource.Position = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -135,7 +116,6 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.LoadReport);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.otchet);
             this.Controls.Add(this.SaveChangesClick);
             this.Controls.Add(this.sell);
             this.Name = "MainForm";
@@ -151,7 +131,6 @@
         #endregion
         private System.Windows.Forms.Button sell;
         private System.Windows.Forms.Button SaveChangesClick;
-        private System.Windows.Forms.Button otchet;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button LoadReport;
         private System.Windows.Forms.DataGridView dataGridView1;

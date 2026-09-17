@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Text;
+using System.Xml.Linq;
 using UchetProdaj.Properties;
 
 namespace UchetProdaj.src.DBCommands
 {
-    internal class DbCommands : IDisposable
+    public class DbCommands : IDisposable
     {
         private OleDbConnection conn;
         private OleDbDataAdapter _adapter;
@@ -139,6 +141,40 @@ namespace UchetProdaj.src.DBCommands
             {
                 cmd.Parameters.Add("?", OleDbType.LongVarWChar).Value = dataForAdd;
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Dictionary<string, int> GetProductsList()
+        {
+            return GetOneColumnData("SELECT [Код товара], [название товара] FROM [Товары]");
+        }
+        public Dictionary<string, int> GetCompanyList()
+        {
+            return GetOneColumnData("SELECT [Код торгового предприятия], [Наименование] FROM [Торговые предприятия]");
+        }
+        private Dictionary<string, int> GetOneColumnData(string sql)
+        {
+            Dictionary<string, int> result = new Dictionary<string, int>();
+            DataTable productsTable = Request(sql);
+            foreach (DataRow r in productsTable.Rows)
+            {
+                result.Add(r.ItemArray[1].ToString(), int.Parse(r.ItemArray[0].ToString()));
+            }
+            return result;
+        }
+
+        public int AddSell(int product, int company, int count)
+        {
+            string sql = "INSERT INTO [Продажи] ([Товар], [Торговое предприятие], [Кол-во]) VALUES (?, ?, ?)";
+
+            using (OleDbCommand command = new OleDbCommand(sql, conn))
+            {
+                command.Parameters.AddWithValue("?", product);
+                command.Parameters.AddWithValue("?", company);
+                command.Parameters.AddWithValue("?", count);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected;
             }
         }
     }
