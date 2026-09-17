@@ -36,7 +36,7 @@ namespace UchetProdaj.Main
             sell.Enabled = RolePermissions.Can(UserSession.Role, Permission.ViewSales);
             otchet.Enabled = RolePermissions.Can(UserSession.Role, Permission.ViewSales);
 
-            LoadTable.Enabled = RolePermissions.Can(UserSession.Role, Permission.EditSales);
+            LoadReport.Enabled = RolePermissions.Can(UserSession.Role, Permission.EditSales);
             SaveChangesClick.Enabled = RolePermissions.Can(UserSession.Role, Permission.EditSales);
         }
 
@@ -65,8 +65,6 @@ namespace UchetProdaj.Main
             dataGridView1.DataSource = dbCommands.GetSales();
             GenerateProductColumn();
             GenerateCustomerColumn();
-            dataGridView1.Columns["Код продажи"].ReadOnly = true;
-            dataGridView1.Columns["Код продажи"].Visible = false;
         }
 
         /// <summary>Обработчик кнопки «Сохранить»: проверяет право роли на изменение данных (само сохранение ещё не реализовано).</summary>
@@ -118,7 +116,7 @@ namespace UchetProdaj.Main
                 Width = 200
             };
             dataGridView1.Columns.Add(combo);
-            combo.DisplayIndex = 1;
+            combo.DisplayIndex = 0;
         }
         private void GenerateCustomerColumn()
         {
@@ -138,7 +136,7 @@ namespace UchetProdaj.Main
                 FillWeight = 120
             };
             dataGridView1.Columns.Add(combo);
-            combo.DisplayIndex = 2;
+            combo.DisplayIndex = 1;
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
