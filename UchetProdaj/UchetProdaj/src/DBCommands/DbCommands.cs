@@ -32,7 +32,7 @@ namespace UchetProdaj.src.DBCommands
 
         public DataTable GetAllDataFromTable(string tableName)
         {
-            return Request(tablesRequests[tableName]);
+            return LoadEditableTable(tablesRequests[tableName]);
         }
 
         public DbCommands()
@@ -63,17 +63,12 @@ namespace UchetProdaj.src.DBCommands
 
         public DataTable GetSales()
         {
-            _adapter = new OleDbDataAdapter("SELECT * FROM [Продажи]", conn);
+            return LoadEditableTable(tablesRequests["Продажи"]);
+        }
 
-            var builder = new OleDbCommandBuilder(_adapter)
-            {
-                QuotePrefix = "[",
-                QuoteSuffix = "]"
-            };
-            _adapter.InsertCommand = builder.GetInsertCommand();
-            _adapter.UpdateCommand = builder.GetUpdateCommand();
-            _adapter.DeleteCommand = builder.GetDeleteCommand();
-
+        private DataTable LoadEditableTable(string request)
+        {
+            _adapter = new OleDbDataAdapter(request, conn);
             _table = new DataTable();
             _adapter.Fill(_table);
             return _table;
@@ -82,6 +77,9 @@ namespace UchetProdaj.src.DBCommands
         public int SaveChanges()
         {
             if (_adapter == null || _table == null) return 0;
+            if (_table.GetChanges() == null) return 0;
+
+            EnsureUpdateCommands();
 
             if (!ChangeChecker()) return 0;
             int affected;
@@ -105,6 +103,21 @@ namespace UchetProdaj.src.DBCommands
 
             _table.AcceptChanges();
             return affected;
+        }
+
+        private void EnsureUpdateCommands()
+        {
+            if (_adapter.InsertCommand != null && _adapter.UpdateCommand != null && _adapter.DeleteCommand != null)
+                return;
+
+            var builder = new OleDbCommandBuilder(_adapter)
+            {
+                QuotePrefix = "[",
+                QuoteSuffix = "]"
+            };
+            _adapter.InsertCommand = builder.GetInsertCommand();
+            _adapter.UpdateCommand = builder.GetUpdateCommand();
+            _adapter.DeleteCommand = builder.GetDeleteCommand();
         }
 
         public void Dispose()

@@ -112,11 +112,6 @@ namespace UchetProdaj.Main
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             dbCommands?.Dispose();
