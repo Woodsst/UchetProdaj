@@ -35,7 +35,7 @@
             this.LoadReport = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.productUchetDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboForTables = new System.Windows.Forms.ComboBox();
             this.LoadTable = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productUchetDataSetBindingSource)).BeginInit();
@@ -77,7 +77,7 @@
             this.LoadReport.TabIndex = 5;
             this.LoadReport.Text = "Отчет";
             this.LoadReport.UseVisualStyleBackColor = true;
-            this.LoadReport.Click += new System.EventHandler(this.LoadTable_Click);
+            this.LoadReport.Click += new System.EventHandler(this.otchet_Click);
             // 
             // dataGridView1
             // 
@@ -89,13 +89,13 @@
             this.dataGridView1.Size = new System.Drawing.Size(760, 278);
             this.dataGridView1.TabIndex = 6;
             // 
-            // comboBox2
+            // comboForTables
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(524, 41);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 7;
+            this.comboForTables.FormattingEnabled = true;
+            this.comboForTables.Location = new System.Drawing.Point(524, 41);
+            this.comboForTables.Name = "comboForTables";
+            this.comboForTables.Size = new System.Drawing.Size(121, 21);
+            this.comboForTables.TabIndex = 7;
             // 
             // LoadTable
             // 
@@ -105,6 +105,7 @@
             this.LoadTable.TabIndex = 8;
             this.LoadTable.Text = "Загрузить таблицу";
             this.LoadTable.UseVisualStyleBackColor = true;
+            this.LoadTable.Click += new System.EventHandler(this.LoadTable_Click);
             // 
             // MainForm
             // 
@@ -112,7 +113,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 389);
             this.Controls.Add(this.LoadTable);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboForTables);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.LoadReport);
             this.Controls.Add(this.comboBox1);
@@ -134,7 +135,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button LoadReport;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboForTables;
         private System.Windows.Forms.Button LoadTable;
         private System.Windows.Forms.BindingSource productUchetDataSetBindingSource;
         private productUchetDataSet productUchetDataSet;

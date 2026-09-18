@@ -29,6 +29,13 @@ namespace UchetProdaj.Main
             SetRolePermissionPossibilities();
             dbCommands = new DbCommands();
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoGenerateColumns = true;
+            LoadTables(dbCommands.GetTables());
+        }
+
+        private void LoadTables(string[] tableNames)
+        {
+            comboForTables.Items.AddRange(tableNames);
         }
 
         /// <summary> и отключает кнопки действий, недоступных его роли.</summary>
@@ -63,9 +70,6 @@ namespace UchetProdaj.Main
         private void sell_Click(object sender, EventArgs e)
         {
             if (!EnsurePermission(Permission.ViewSales)) return;
-            //dataGridView1.DataSource = dbCommands.GetSales();
-            //GenerateProductColumn();
-            //GenerateCustomerColumn();
             SellForm sellForm = new SellForm(dbCommands);
             sellForm.ShowDialog();
         }
@@ -88,12 +92,24 @@ namespace UchetProdaj.Main
 
         private void otchet_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = dbCommands.GetProducts();
+            
         }
 
         private void LoadTable_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (comboForTables.Text == "")
+                {
+                    MessageBox.Show("Укажите имя таблицы");
+                    return;
+                }
+                dataGridView1.DataSource = dbCommands.GetAllDataFromTable(comboForTables.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Что-то пошло не так");
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -101,50 +117,15 @@ namespace UchetProdaj.Main
 
         }
 
-        private void GenerateProductColumn()
-        {
-            if (dataGridView1.Columns.Contains("Товар"))
-                dataGridView1.Columns.Remove("Товар");
-            var productTable = dbCommands.GetProducts();
-            var combo = new DataGridViewComboBoxColumn
-            {
-                Name = "Товар",
-                DataPropertyName = "Товар",
-                HeaderText = "Товар",
-                DataSource = productTable,
-                DisplayMember = "название товара",
-                ValueMember = "Код товара",
-                FlatStyle = FlatStyle.Flat,
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
-                Width = 200
-            };
-            dataGridView1.Columns.Add(combo);
-            combo.DisplayIndex = 0;
-        }
-        private void GenerateCustomerColumn()
-        {
-            if (dataGridView1.Columns.Contains("Торговое предприятие"))
-                dataGridView1.Columns.Remove("Торговое предприятие");
-            var productTable = dbCommands.GetCustomers();
-            var combo = new DataGridViewComboBoxColumn
-            {
-                Name = "Торговое предприятие",
-                DataPropertyName = "Торговое предприятие",
-                HeaderText = "Торговое предприятие",
-                DataSource = productTable,
-                DisplayMember = "Наименование",
-                ValueMember = "Код торгового предприятия",
-                FlatStyle = FlatStyle.Flat,
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
-                FillWeight = 120
-            };
-            dataGridView1.Columns.Add(combo);
-            combo.DisplayIndex = 1;
-        }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             dbCommands?.Dispose();
             base.OnFormClosed(e);
+        }
+
+        private void LoadTable_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

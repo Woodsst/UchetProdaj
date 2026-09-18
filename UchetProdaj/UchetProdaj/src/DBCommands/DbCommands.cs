@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using UchetProdaj.Properties;
@@ -14,6 +15,25 @@ namespace UchetProdaj.src.DBCommands
         private OleDbConnection conn;
         private OleDbDataAdapter _adapter;
         private DataTable _table;
+
+        private Dictionary<string, string> tablesRequests = new Dictionary<string, string>()
+        {
+            { "Товары", "SELECT * FROM [Товары]" },
+            { "Торговые предприятия", "Select * FROM [Торговые предприятия]" },
+            { "Города", "Select * FROM [Города]" },
+            { "Группы товаров", "Select * FROM [Группы товаров]" },
+            { "Продажи", "Select * FROM [Продажи]" },
+        };
+
+        public string[] GetTables()
+        {
+            return tablesRequests.Keys.ToArray();
+        }
+
+        public DataTable GetAllDataFromTable(string tableName)
+        {
+            return Request(tablesRequests[tableName]);
+        }
 
         public DbCommands()
         {
